@@ -43,16 +43,53 @@ window.findNRooksSolution = function(n) {
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
-  var solutionCount = undefined; //fixme
+  var solutionCount = 0;
+  //for (var k = 0; k < n; k++) {
+  //  var solution = new Board({'n':n});  //start with clear board
+  //  var count = 0;
+  //  for (var i = 0; i < n; i++) {     //i= row
+  //    for (var j = 0; j < n; j++) {   //j= index in row (column)
+  //      solution.togglePiece(i,j);      //place piece
+  //      if (solution.hasAnyRooksConflicts()) {    //checks conflicts
+  //        solution.togglePiece(i,j);              //if conflict = true => remove piece
+  //      }
+  //    }
+  //  }
+  //  var rows = solution.rows();
+  //  for (var l = 0; l < n; l++) {   //rows => array of n length containing n arrays
+  //    for (var m = 0; m < n; m++) {
+  //      count += rows[l][m];
+  //    }
+  //  }
+  //  if (count === n) {
+  //    solutionCount++;
+  //  }
+  //}
 
+  //*** RECURSIVE SOLUTION ***
+  var solution = new Board({'n':n});
+  var recurse = function(row) {
+    if (row === n) {
+      solutionCount++;
+    } else {
+      for (var col = 0; col < n; col++) {   //moves through each column
+        solution.togglePiece(row, col);   //place piece at given row and current column
+        if (solution.hasAnyRooksConflicts() === false) {    //if  no conflict => move to next row
+          recurse(row + 1);
+        }
+        solution.togglePiece(row, col);     //else, remove the piece
+      }
+    }
+  }
+  recurse(0);
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
 };
 
+
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
-  var solution = undefined; //fixme
-
+  var solution = new Board({'n':n});
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
   return solution;
 };
