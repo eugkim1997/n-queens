@@ -57,7 +57,6 @@ window.findNQueensSolution = function(n) {
   var recurse = function(row) {
     if (row === n) {
       result = solution.rows();
-      console.log(result);
     } else {
       for (var col = 0; col < n; col++) {
         solution.togglePiece(row, col);
